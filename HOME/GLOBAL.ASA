@@ -1,0 +1,26 @@
+<script language=vbscript runat=server>
+sub application_onstart()
+
+end sub
+
+sub session_onstart()
+dim file1,fso1,count
+set fso1=server.createobject("scripting.filesystemobject")
+	if not fso1.fileExists(server.mappath("new.txt")) then 
+	  set file1=fso1.createtextfile(server.mappath("new.txt"),false)
+	end if
+set file1=fso1.opentextfile(server.mappath("new.txt"),1)
+count = file1.readline
+file1.close
+set file=nothing
+set file1=fso1.opentextfile(server.mappath("new.txt"),2)
+file1.write (Cstr(Cint(count)+1))
+session.timeout = 30
+session("count") = count + 1
+
+file1.close
+set file1=nothing
+set fso1=nothing
+end sub
+
+</script>
